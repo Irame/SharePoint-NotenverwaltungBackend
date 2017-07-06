@@ -7,9 +7,9 @@ using NotenverwaltungBackend.Model;
 
 namespace NotenverwaltungBackend.Models
 {
-    public class SchuelerNotenContext : DbContext
+    public class NotenverwaltungBackendContext : DbContext
     {
-        public SchuelerNotenContext (DbContextOptions<SchuelerNotenContext> options)
+        public NotenverwaltungBackendContext (DbContextOptions<NotenverwaltungBackendContext> options)
             : base(options)
         {
         }

@@ -8,10 +8,11 @@ using NotenverwaltungBackend.Model;
 
 namespace NotenverwaltungBackend.Migrations
 {
-    [DbContext(typeof(SchuelerNotenContext))]
-    partial class SchuelerNotenContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(NotenverwaltungBackendContext))]
+    [Migration("20170706161846_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")

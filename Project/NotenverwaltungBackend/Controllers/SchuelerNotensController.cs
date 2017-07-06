@@ -14,9 +14,9 @@ namespace NotenverwaltungBackend.Controllers
     [Route("api/SchuelerNotens")]
     public class SchuelerNotensController : Controller
     {
-        private readonly SchuelerNotenContext _context;
+        private readonly NotenverwaltungBackendContext _context;
 
-        public SchuelerNotensController(SchuelerNotenContext context)
+        public SchuelerNotensController(NotenverwaltungBackendContext context)
         {
             _context = context;
         }
