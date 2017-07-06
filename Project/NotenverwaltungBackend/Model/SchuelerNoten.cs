@@ -54,7 +54,7 @@ namespace NotenverwaltungBackend.Model
         public int FachID { get; set; }
         public string Name { get; set; }
         public Jahrgang Jahrgang { get; set; }
-        public virtual ICollection<Lehrer> Lehrer { get; set; }
+        public virtual ICollection<FachLehrer> FachLehrer { get; set; }
         public virtual ICollection<Klasse> Klassen { get; set; }
     }
 
@@ -63,6 +63,30 @@ namespace NotenverwaltungBackend.Model
         public int LehrerID { get; set; }
         public Person Person { get; set; }
         public virtual ICollection<Klasse> Klassen { get; set; }
-        public virtual ICollection<Fach> Faecher { get; set; }
+        public virtual ICollection<FachLehrer> FachLehrer { get; set; }
+    }
+
+    public class FachLehrer
+    {
+        public int FachID { get; set; }
+        public int LehrerID { get; set; }
+
+        public virtual Fach Fach { get; set; }
+        public virtual Lehrer Lehrer { get; set; }
+    }
+
+    public class FachSchueler
+    {
+        
+    }
+
+    public class KlasseSchueler
+    {
+        
+    }
+
+    public class KlasseLehrer
+    {
+        
     }
 }
