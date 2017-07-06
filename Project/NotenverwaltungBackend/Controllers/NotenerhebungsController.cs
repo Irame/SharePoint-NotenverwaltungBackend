@@ -5,63 +5,63 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NotenverwaltungBackend.Data;
 using NotenverwaltungBackend.Model;
-using NotenverwaltungBackend.Models;
 
 namespace NotenverwaltungBackend.Controllers
 {
     [Produces("application/json")]
-    [Route("api/SchuelerNotens")]
-    public class SchuelerNotensController : Controller
+    [Route("api/Notenerhebungs")]
+    public class NotenerhebungsController : Controller
     {
         private readonly NotenverwaltungBackendContext _context;
 
-        public SchuelerNotensController(NotenverwaltungBackendContext context)
+        public NotenerhebungsController(NotenverwaltungBackendContext context)
         {
             _context = context;
         }
 
-        // GET: api/SchuelerNotens
+        // GET: api/Notenerhebungs
         [HttpGet]
-        public IEnumerable<SchuelerNoten> GetSchuelerNoten()
+        public IEnumerable<Notenerhebung> GetNotenerhebung()
         {
-            return _context.SchuelerNoten;
+            return _context.Notenerhebung;
         }
 
-        // GET: api/SchuelerNotens/5
+        // GET: api/Notenerhebungs/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSchuelerNoten([FromRoute] string id)
+        public async Task<IActionResult> GetNotenerhebung([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var schuelerNoten = await _context.SchuelerNoten.SingleOrDefaultAsync(m => m.Benutzername == id);
+            var notenerhebung = await _context.Notenerhebung.SingleOrDefaultAsync(m => m.NotenerhebungID == id);
 
-            if (schuelerNoten == null)
+            if (notenerhebung == null)
             {
                 return NotFound();
             }
 
-            return Ok(schuelerNoten);
+            return Ok(notenerhebung);
         }
 
-        // PUT: api/SchuelerNotens/5
+        // PUT: api/Notenerhebungs/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSchuelerNoten([FromRoute] string id, [FromBody] SchuelerNoten schuelerNoten)
+        public async Task<IActionResult> PutNotenerhebung([FromRoute] int id, [FromBody] Notenerhebung notenerhebung)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != schuelerNoten.Benutzername)
+            if (id != notenerhebung.NotenerhebungID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(schuelerNoten).State = EntityState.Modified;
+            _context.Entry(notenerhebung).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace NotenverwaltungBackend.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SchuelerNotenExists(id))
+                if (!NotenerhebungExists(id))
                 {
                     return NotFound();
                 }
@@ -82,45 +82,45 @@ namespace NotenverwaltungBackend.Controllers
             return NoContent();
         }
 
-        // POST: api/SchuelerNotens
+        // POST: api/Notenerhebungs
         [HttpPost]
-        public async Task<IActionResult> PostSchuelerNoten([FromBody] SchuelerNoten schuelerNoten)
+        public async Task<IActionResult> PostNotenerhebung([FromBody] Notenerhebung notenerhebung)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.SchuelerNoten.Add(schuelerNoten);
+            _context.Notenerhebung.Add(notenerhebung);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSchuelerNoten", new { id = schuelerNoten.Benutzername }, schuelerNoten);
+            return CreatedAtAction("GetNotenerhebung", new { id = notenerhebung.NotenerhebungID }, notenerhebung);
         }
 
-        // DELETE: api/SchuelerNotens/5
+        // DELETE: api/Notenerhebungs/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSchuelerNoten([FromRoute] string id)
+        public async Task<IActionResult> DeleteNotenerhebung([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var schuelerNoten = await _context.SchuelerNoten.SingleOrDefaultAsync(m => m.Benutzername == id);
-            if (schuelerNoten == null)
+            var notenerhebung = await _context.Notenerhebung.SingleOrDefaultAsync(m => m.NotenerhebungID == id);
+            if (notenerhebung == null)
             {
                 return NotFound();
             }
 
-            _context.SchuelerNoten.Remove(schuelerNoten);
+            _context.Notenerhebung.Remove(notenerhebung);
             await _context.SaveChangesAsync();
 
-            return Ok(schuelerNoten);
+            return Ok(notenerhebung);
         }
 
-        private bool SchuelerNotenExists(string id)
+        private bool NotenerhebungExists(int id)
         {
-            return _context.SchuelerNoten.Any(e => e.Benutzername == id);
+            return _context.Notenerhebung.Any(e => e.NotenerhebungID == id);
         }
     }
 }

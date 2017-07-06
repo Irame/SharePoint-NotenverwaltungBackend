@@ -6,39 +6,63 @@ using System.Threading.Tasks;
 
 namespace NotenverwaltungBackend.Model
 {
-    public class SchuelerNoten
+    public class Person
     {
-        [Key]
+        public int PersonID { get; set; }
         public string Benutzername { get; set; }
         public string Vorname { get; set; }
         public string Nachname { get; set; }
-        public string Klasse { get; set; }
-        public string Halbjahrenszeugnis { get; set; }
-        public string Jahreszeugnis { get; set; }
-        public double Notendurchschnitt { get; }
-        public List<Fach> Feacher { get; set; }
+    }
+
+    public class Schueler
+    {
+        public int SchuelerID { get; set; }
+        public Person Person { get; set; }
+        public virtual ICollection<Klasse> Klassen { get; set; }
+        public virtual ICollection<Notenerhebung> Noten { get; set; }
+    }
+
+    public class Klasse
+    {
+        public int KlasseID { get; set; }
+        public string Name { get; set; }
+        public Jahrgang Jahrgang { get; set; }
+        public virtual ICollection<Schueler> Schueler { get; set; }
+        public virtual ICollection<Fach> Faecher { get; set; }
+        public virtual ICollection<Lehrer> Lehrer { get; set; }
+    }
+
+    public class Notenerhebung
+    {
+        public int NotenerhebungID { get; set; }
+        public Fach Fach { get; set; }
+        public DateTime Datum { get; set; }
+        public string Typ { get; set; }
+        public int Note { get; set; }
+        public Schueler Schueler { get; set; }
+        public string Bemerkung { get; set; }
+    }
+
+    public class Jahrgang
+    {
+        public int JahrgangID { get; set; }
+        public string Name { get; set; }
     }
 
     public class Fach
     {
-        [Key]
-        public int ID { get; set; }
+        public int FachID { get; set; }
         public string Name { get; set; }
-        public double Notendurchschnitt { get; }
-        public List<Leistungserhebung> Noten { get; set; }
+        public Jahrgang Jahrgang { get; set; }
+        public virtual ICollection<Lehrer> Lehrer { get; set; }
+        public virtual ICollection<Klasse> Klassen { get; set; }
     }
 
-    public class Leistungserhebung
+    public class Lehrer
     {
-        [Key]
-        public int ID { get; set; }
-        public DateTime Datum { get; set; }
-        public NotenTyp Typ { get; set; }
-        public double Note { get; set; }
-    }
-
-    public enum NotenTyp
-    {
-        Stehgreifaufgabe, Schulaufgabe
+        public int LehrerID { get; set; }
+        public Person Person { get; set; }
+        public virtual ICollection<Klasse> Klassen { get; set; }
+        public virtual ICollection<Fach> Faecher { get; set; }
     }
 }
