@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using NotenverwaltungBackend.Controllers;
+using NotenverwaltungBackend.Data;
 
 namespace NotenverwaltungBackend
 {

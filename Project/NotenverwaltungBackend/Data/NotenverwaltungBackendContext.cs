@@ -21,5 +21,22 @@ namespace NotenverwaltungBackend.Data
         public DbSet<NotenverwaltungBackend.Model.Person> Person { get; set; }
         public DbSet<NotenverwaltungBackend.Model.Jahrgang> Jahrgang { get; set; }
         public DbSet<NotenverwaltungBackend.Model.Lehrer> Lehrer { get; set; }
+        public DbSet<NotenverwaltungBackend.Model.FachLehrer> FachLehrer { get; set; }
+        public DbSet<NotenverwaltungBackend.Model.FachSchueler> FachSchueler { get; set; }
+        public DbSet<NotenverwaltungBackend.Model.KlasseLehrer> KlasseLehrer { get; set; }
+        public DbSet<NotenverwaltungBackend.Model.KlasseSchueler> KlasseSchueler { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<FachLehrer>()
+                .HasKey(e => new {e.FachID, e.LehrerID});
+            modelBuilder.Entity<FachSchueler>()
+                .HasKey(e => new { e.FachID, e.SchuelerID });
+            modelBuilder.Entity<KlasseLehrer>()
+                .HasKey(e => new { e.KlasseID, e.LehrerID });
+            modelBuilder.Entity<KlasseSchueler>()
+                .HasKey(e => new { e.KlasseID, e.SchuelerID });
+        }
     }
 }
