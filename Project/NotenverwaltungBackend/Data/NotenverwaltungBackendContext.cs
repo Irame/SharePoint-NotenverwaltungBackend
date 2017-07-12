@@ -25,6 +25,7 @@ namespace NotenverwaltungBackend.Data
         public DbSet<NotenverwaltungBackend.Model.FachSchueler> FachSchueler { get; set; }
         public DbSet<NotenverwaltungBackend.Model.KlasseLehrer> KlasseLehrer { get; set; }
         public DbSet<NotenverwaltungBackend.Model.KlasseSchueler> KlasseSchueler { get; set; }
+        public DbSet<NotenverwaltungBackend.Model.KlasseFach> KlasseFach { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,6 +38,8 @@ namespace NotenverwaltungBackend.Data
                 .HasKey(e => new { e.KlasseID, e.LehrerID });
             modelBuilder.Entity<KlasseSchueler>()
                 .HasKey(e => new { e.KlasseID, e.SchuelerID });
+            modelBuilder.Entity<KlasseFach>()
+                .HasKey(e => new { e.KlasseID, e.FachID });
         }
     }
 }

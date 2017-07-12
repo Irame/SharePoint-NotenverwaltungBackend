@@ -116,6 +116,30 @@ namespace NotenverwaltungBackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "KlasseFach",
+                columns: table => new
+                {
+                    KlasseID = table.Column<int>(nullable: false),
+                    FachID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KlasseFach", x => new { x.KlasseID, x.FachID });
+                    table.ForeignKey(
+                        name: "FK_KlasseFach_Fach_FachID",
+                        column: x => x.FachID,
+                        principalTable: "Fach",
+                        principalColumn: "FachID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_KlasseFach_Klasse_KlasseID",
+                        column: x => x.KlasseID,
+                        principalTable: "Klasse",
+                        principalColumn: "KlasseID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FachLehrer",
                 columns: table => new
                 {
@@ -262,6 +286,11 @@ namespace NotenverwaltungBackend.Migrations
                 column: "JahrgangID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_KlasseFach_FachID",
+                table: "KlasseFach",
+                column: "FachID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_KlasseLehrer_LehrerID",
                 table: "KlasseLehrer",
                 column: "LehrerID");
@@ -299,6 +328,9 @@ namespace NotenverwaltungBackend.Migrations
 
             migrationBuilder.DropTable(
                 name: "FachSchueler");
+
+            migrationBuilder.DropTable(
+                name: "KlasseFach");
 
             migrationBuilder.DropTable(
                 name: "KlasseLehrer");
