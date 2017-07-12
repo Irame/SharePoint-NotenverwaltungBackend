@@ -30,25 +30,11 @@ namespace NotenverwaltungBackend.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Entry(new KlasseSchueler{ KlasseID = klasseId, SchuelerID = schuelerId }).State = EntityState.Modified;
+            var result = new KlasseSchueler {KlasseID = klasseId, SchuelerID = schuelerId};
+            _context.KlasseSchueler.Add(result);
+            await _context.SaveChangesAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!KlasseSchuelerExists(klasseId, schuelerId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Created("", result);
         }
 
         // DELETE: api/KlasseSchueler/5

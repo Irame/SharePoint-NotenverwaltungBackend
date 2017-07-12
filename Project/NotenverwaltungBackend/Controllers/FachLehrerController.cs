@@ -30,25 +30,11 @@ namespace NotenverwaltungBackend.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Entry(new FachLehrer{ FachID = fachId, LehrerID = lehrerId }).State = EntityState.Modified;
+            var result = new FachLehrer { FachID = fachId, LehrerID = lehrerId };
+            _context.FachLehrer.Add(result);
+            await _context.SaveChangesAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FachLehrerExists(fachId, lehrerId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Created("", result);
         }
 
         // DELETE: api/FachLehrer/5
