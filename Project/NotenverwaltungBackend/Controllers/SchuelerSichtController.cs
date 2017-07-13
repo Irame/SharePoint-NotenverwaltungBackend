@@ -27,7 +27,7 @@ namespace NotenverwaltungBackend.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            
             var schueler = await _context.Schueler
                 .Include(s => s.Person)
                 .Where(s => s.Person.Benutzername == benutzername)
@@ -62,6 +62,13 @@ namespace NotenverwaltungBackend.Controllers
                                 .ToList()
                         });
                 }
+                double feacherDurchschnittSumme = 0;
+                foreach (var fachSicht in klasseSicht.Faecher)
+                {
+                    fachSicht.Durchschnitt = (double) fachSicht.Noten.Sum(x => x.Typ == "Schulaufgabe" ? x.Note * 2 : x.Note) / fachSicht.Noten.Sum(x => x.Typ == "Schulaufgabe" ? 2 : 1);
+                    feacherDurchschnittSumme += fachSicht.Durchschnitt;
+                }
+                klasseSicht.Durchschnitt = feacherDurchschnittSumme / klasseSicht.Faecher.Count;
                 result.Klassen.Add(klasseSicht);
             }
 
@@ -78,12 +85,14 @@ namespace NotenverwaltungBackend.Controllers
         {
             public string Jahrgang { get; set; }
             public string Klasse { get; set; }
+            public double Durchschnitt { get; set; }
             public List<FachSicht> Faecher { get; set; } = new List<FachSicht>();
         }
 
         public class FachSicht
         {
             public string Name { get; set; }
+            public double Durchschnitt { get; set; }
             public List<NoteSicht> Noten { get; set; } = new List<NoteSicht>();
         }
 
