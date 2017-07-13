@@ -8,7 +8,7 @@ using NotenverwaltungBackend.Data;
 namespace NotenverwaltungBackend.Migrations
 {
     [DbContext(typeof(NotenverwaltungBackendContext))]
-    [Migration("20170712161043_Initial")]
+    [Migration("20170713075154_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,19 +85,6 @@ namespace NotenverwaltungBackend.Migrations
                     b.HasIndex("JahrgangID");
 
                     b.ToTable("Klasse");
-                });
-
-            modelBuilder.Entity("NotenverwaltungBackend.Model.KlasseFach", b =>
-                {
-                    b.Property<int>("KlasseID");
-
-                    b.Property<int>("FachID");
-
-                    b.HasKey("KlasseID", "FachID");
-
-                    b.HasIndex("FachID");
-
-                    b.ToTable("KlasseFach");
                 });
 
             modelBuilder.Entity("NotenverwaltungBackend.Model.KlasseLehrer", b =>
@@ -220,12 +207,12 @@ namespace NotenverwaltungBackend.Migrations
             modelBuilder.Entity("NotenverwaltungBackend.Model.FachSchueler", b =>
                 {
                     b.HasOne("NotenverwaltungBackend.Model.Fach", "Fach")
-                        .WithMany()
+                        .WithMany("FachSchueler")
                         .HasForeignKey("FachID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("NotenverwaltungBackend.Model.Schueler", "Schueler")
-                        .WithMany()
+                        .WithMany("FachSchueler")
                         .HasForeignKey("SchuelerID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -235,19 +222,6 @@ namespace NotenverwaltungBackend.Migrations
                     b.HasOne("NotenverwaltungBackend.Model.Jahrgang", "Jahrgang")
                         .WithMany()
                         .HasForeignKey("JahrgangID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("NotenverwaltungBackend.Model.KlasseFach", b =>
-                {
-                    b.HasOne("NotenverwaltungBackend.Model.Fach", "Fach")
-                        .WithMany("KlasseFach")
-                        .HasForeignKey("FachID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("NotenverwaltungBackend.Model.Klasse", "Klasse")
-                        .WithMany("KlasseFach")
-                        .HasForeignKey("KlasseID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

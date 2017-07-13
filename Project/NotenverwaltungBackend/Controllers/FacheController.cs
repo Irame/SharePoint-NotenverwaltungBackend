@@ -11,7 +11,7 @@ using NotenverwaltungBackend.Model;
 namespace NotenverwaltungBackend.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Fache")]
+    [Route("api/Fach")]
     public class FacheController : Controller
     {
         private readonly NotenverwaltungBackendContext _context;

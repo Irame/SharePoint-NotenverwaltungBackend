@@ -9,6 +9,7 @@ namespace NotenverwaltungBackend.Model
 
         public virtual Person Person { get; set; }
         public virtual ICollection<KlasseSchueler> KlasseSchueler { get; set; }
+        public virtual ICollection<FachSchueler> FachSchueler { get; set; }
         public virtual ICollection<Notenerhebung> Noten { get; set; }
     }
 }

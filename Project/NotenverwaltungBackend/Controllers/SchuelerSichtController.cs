@@ -28,7 +28,13 @@ namespace NotenverwaltungBackend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var schueler = await _context.Schueler.Include(s => s.Person).SingleOrDefaultAsync(s => s.Person.Benutzername == benutzername);
+            var schueler = await _context.Schueler
+                .Include(s => s.Person)
+                .Where(s => s.Person.Benutzername == benutzername)
+                .Include(x => x.FachSchueler).ThenInclude(x => x.Fach)
+                .Include(x => x.KlasseSchueler).ThenInclude(x => x.Klasse).ThenInclude(x => x.Jahrgang)
+                .Include(x => x.Noten)
+                .SingleOrDefaultAsync();
             
             if (schueler == null)
             {
@@ -37,17 +43,12 @@ namespace NotenverwaltungBackend.Controllers
 
             var result = new SchuelerSicht {Id = schueler.SchuelerID};
 
-            var klassenQuery = _context.Schueler.Include(s => s.Person)
-                .Where(s => s.Person.Benutzername == benutzername)
-                .Include(s => s.KlasseSchueler).ThenInclude(ks => ks.Klasse).SelectMany(x => x.KlasseSchueler)
-                .Select(x => x.Klasse);
-            foreach (var jahrgang in _context.Jahrgang)
+            foreach (var klasse in schueler.KlasseSchueler.Select(x => x.Klasse))
             {
-                var klasse = await klassenQuery.Where(x => x.Jahrgang == jahrgang).Include(x => x.KlasseFach).ThenInclude(x => x.Fach).SingleOrDefaultAsync();
-                var klasseSicht = new KlasseSicht { Jahrgang = jahrgang.Name, Klasse = klasse.Name };
+                var klasseSicht = new KlasseSicht { Jahrgang = klasse.Jahrgang.Name, Klasse = klasse.Name };
 
-                var feacher = klasse.KlasseFach.Select(x => x.Fach).ToList();
-                var noten = _context.Notenerhebung.Where(x => x.SchuelerID == schueler.SchuelerID).ToList();
+                var feacher = schueler.FachSchueler.Select(x => x.Fach);
+                var noten = schueler.Noten;
 
                 foreach (var fach in feacher)
                 {

@@ -11,6 +11,5 @@ namespace NotenverwaltungBackend.Model
         public virtual Jahrgang Jahrgang { get; set; }
         public virtual ICollection<KlasseSchueler> KlasseSchueler { get; set; }
         public virtual ICollection<KlasseLehrer> KlasseLehrer { get; set; }
-        public virtual ICollection<KlasseFach> KlasseFach { get; set; }
     }
 }
