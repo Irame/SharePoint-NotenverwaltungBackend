@@ -58,8 +58,11 @@ namespace NotenverwaltungBackend.Controllers
                         Schueler = fach.FachSchueler
                             .Select(x => new SchuelerSicht
                             {
-                                Id = x.Schueler.SchuelerID,
-                                Name = $"{x.Schueler.Person.Vorname} {x.Schueler.Person.Nachname}"
+                                Id = x.SchuelerID,
+                                Name = $"{x.Schueler.Person.Vorname} {x.Schueler.Person.Nachname}",
+                                Noten = _context.Notenerhebung
+                                            .Where(y => y.SchuelerID == x.SchuelerID && y.FachID == x.FachID)
+                                            .Select(n => new NoteSicht {Note = n.Note, Datum = n.Datum, Typ = n.Typ}).ToList()
                             }).ToList()
                     });
                 }
@@ -93,6 +96,14 @@ namespace NotenverwaltungBackend.Controllers
         {
             public int Id { get; set; }
             public string Name { get; set; }
+            public List<NoteSicht> Noten { get; set; }
+        }
+
+        public class NoteSicht
+        {
+            public int Note;
+            public DateTime Datum;
+            public string Typ;
         }
     }
 }
